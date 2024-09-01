@@ -21,7 +21,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 
 /**
- *
+ * 
  * @author aguero
  */
 @Table(name = "social_links")

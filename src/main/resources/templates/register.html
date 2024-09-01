@@ -14,9 +14,8 @@
                 <!-- card -->
                 <div
                     class="block p-6 border-t-[10px] border-blue-700 bg-white rounded-xl shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-blue-700 dark:hover:bg-gray-700">
-                    <!-- message here  data-th-replace="message::messagebox" -->
+                    <!-- message here   -->
 
-                    <div></div>
 
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                         Signup Here
@@ -26,33 +25,26 @@
                     </p>
 
                     <!-- this is  form -->
-                    <form data-th-action="@{/authentication/register}" method="post" class="mt-5" novalidate>
-                        <!-- name  -->
+                    <form data-th-action="@{/authentication/register}" method="post" class="mt-5" novalidate
+                        th:object="${register}">
+                        <!-- email  -->
 
                         <div class="mb-3">
                             <label for="email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" id="name"
+                            <input th:field="*{email}" type="text" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter here" required />
 
 
                         </div>
-                        <!-- email field -->
-                        <div class="mb-3">
-                            <label for="email"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                            <input type="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="name@flowbite.com" required />
 
-                        </div>
                         <!-- password field -->
                         <div class="mb-3">
                             <label for="password"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
                                 Password</label>
-                            <input type="password" id="password"
+                            <input th:field="*{password}" type="password" id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
 
@@ -62,7 +54,7 @@
                             <label for="phone"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact
                                 Number</label>
-                            <input type="text" id="phone"
+                            <input th:field="*{phoneNumber}" type="text" id="phone"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
 
@@ -74,7 +66,7 @@
                             <label for="about"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Write something
                                 about yourself</label>
-                            <textarea id="about" rows="6"
+                            <textarea th:field="*{about}" id="about" rows="6"
                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Write here..."></textarea>
 

@@ -8,10 +8,13 @@ package com.github.angel.scm.persistence.entity;
 import java.util.UUID;
 
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,7 +31,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.Serial;
 import java.io.Serializable;
-
 
 /**
  *
@@ -71,11 +73,16 @@ public class Contact implements Serializable {
     @JsonBackReference
     private User user;
 
+    @Type(value = ListArrayType.class, parameters = {
+            @Parameter(name = ListArrayType.SQL_ARRAY_TYPE, value = "social_links")
+    })
     @JsonManagedReference
-    @Column(name = "social_links")
+    @Column(name = "social_links", columnDefinition = "social_links[]")
     @OneToMany(mappedBy = "contact", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<SocialLink> socialLinks = new ArrayList<>();
-    public Contact() {}
+
+    public Contact() {
+    }
 
     public Contact(UUID contactId, UUID userId, String name, String email, String phoneNumber, String address,
             String picture, String description, boolean favorite, String websiteLink, String linkedInLink,
@@ -95,8 +102,6 @@ public class Contact implements Serializable {
         this.user = user;
         this.socialLinks = socialLinks;
     }
-
-
 
     public UUID getContactId() {
         return contactId;
@@ -216,6 +221,31 @@ public class Contact implements Serializable {
                 + ", phoneNumber=" + phoneNumber + ", address=" + address + ", picture=" + picture + ", description="
                 + description + ", favorite=" + favorite + ", websiteLink=" + websiteLink + ", linkedInLink="
                 + linkedInLink + ", cloudinaryImagePublicId=" + cloudinaryImagePublicId + ", user=" + user + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((contactId == null) ? 0 : contactId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Contact other = (Contact) obj;
+        if (contactId == null) {
+            if (other.contactId != null)
+                return false;
+        } else if (!contactId.equals(other.contactId))
+            return false;
+        return true;
     }
 
 }

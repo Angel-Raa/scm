@@ -13,10 +13,13 @@ import java.util.UUID;
 import java.sql.Types;
 
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.angel.scm.utils.Providers;
 
+import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -79,15 +82,16 @@ public class User implements Serializable {
     @JoinColumn(name = "fk_role_id", insertable = false, updatable = false, referencedColumnName = "role_id")
     private Role role;
 
+    @Type(value = ListArrayType.class, parameters = {
+            @Parameter(name = ListArrayType.SQL_ARRAY_TYPE, value = "contact")
+    })
     @JsonManagedReference
-    @Column(name = "contact")
+    @Column(name = "contact", columnDefinition = "contacts[]")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Contact.class, orphanRemoval = true, mappedBy = "user")
     private List<Contact> contact = new ArrayList<>();
 
     public User() {
     }
-
-    
 
     public User(UUID userId, UUID roleId, String email, String password, String about, String profilePic,
             String phoneNumber, boolean enabled, boolean emailVerified, boolean phoneVerified, Providers providers,
@@ -108,8 +112,6 @@ public class User implements Serializable {
         this.role = role;
         this.contact = contact;
     }
-
-
 
     public UUID getUserId() {
         return userId;
