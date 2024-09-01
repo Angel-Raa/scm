@@ -15,5 +15,6 @@ import java.io.Serializable;
 public class SocialLink implements Serializable {
     @Serial
     private static final Long serialVersionUID = -1828329332224123242L;
+    
 
 }

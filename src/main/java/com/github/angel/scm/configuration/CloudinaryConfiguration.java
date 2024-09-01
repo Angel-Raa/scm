@@ -13,5 +13,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class CloudinaryConfiguration {
+    private String cloudName;
+    private String apiKey;
+    private String apiSecret;
+    
+
 
 }

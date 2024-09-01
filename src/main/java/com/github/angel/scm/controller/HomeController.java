@@ -39,6 +39,9 @@ public class HomeController {
     public String contact(final Model model){
         return "contact";
     }
+
+
+    
   
 
 }

@@ -5,20 +5,20 @@
 
 package com.github.angel.scm.persistence.repository;
 
+
+import com.github.angel.scm.persistence.entity.Role;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
-import com.github.angel.scm.persistence.entity.User;
-
 import io.hypersistence.utils.spring.repository.BaseJpaRepository;
+
 
 /**
  *
  * @author aguero
  */
 @Repository
-public interface UserRepository extends BaseJpaRepository<User, UUID> {
-    boolean existsByEmail(String email);
+public interface RoleRepository extends BaseJpaRepository<Role, UUID>{
 
 }
