@@ -10,8 +10,9 @@ package com.github.angel.scm.service;
  * @author aguero
  */
 public interface EmailService {
+    
     /**
-     * 
+     * Send an email with the given parameters
      * @param to
      * @param subject
      * @param body

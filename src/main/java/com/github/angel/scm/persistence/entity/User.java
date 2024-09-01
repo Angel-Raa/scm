@@ -7,10 +7,14 @@ package com.github.angel.scm.persistence.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.sql.Types;
 
 import org.hibernate.annotations.JdbcTypeCode;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.angel.scm.utils.Providers;
 
 import jakarta.persistence.CascadeType;
@@ -25,16 +29,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-
 
 /**
  *
  * @author aguero
  */
 @Entity(name = "User")
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = -2192717293716361515L;
@@ -75,12 +79,19 @@ public class User implements Serializable {
     @JoinColumn(name = "fk_role_id", insertable = false, updatable = false, referencedColumnName = "role_id")
     private Role role;
 
+    @JsonManagedReference
+    @Column(name = "contact")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Contact.class, orphanRemoval = true, mappedBy = "user")
+    private List<Contact> contact = new ArrayList<>();
+
     public User() {
     }
 
+    
+
     public User(UUID userId, UUID roleId, String email, String password, String about, String profilePic,
             String phoneNumber, boolean enabled, boolean emailVerified, boolean phoneVerified, Providers providers,
-            String providerUserId, String emailToken, Role role) {
+            String providerUserId, String emailToken, Role role, List<Contact> contact) {
         this.userId = userId;
         this.roleId = roleId;
         this.email = email;
@@ -95,7 +106,10 @@ public class User implements Serializable {
         this.providerUserId = providerUserId;
         this.emailToken = emailToken;
         this.role = role;
+        this.contact = contact;
     }
+
+
 
     public UUID getUserId() {
         return userId;
@@ -104,8 +118,6 @@ public class User implements Serializable {
     public void setUserId(UUID userId) {
         this.userId = userId;
     }
-
-    
 
     public UUID getRoleId() {
         return roleId;
@@ -209,6 +221,14 @@ public class User implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Contact> getContact() {
+        return contact;
+    }
+
+    public void setContact(List<Contact> contact) {
+        this.contact = contact;
     }
 
     @Override
