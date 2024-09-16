@@ -81,8 +81,7 @@ public class Contact implements Serializable {
     @OneToMany(mappedBy = "contact", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<SocialLink> socialLinks = new ArrayList<>();
 
-    public Contact() {
-    }
+    public Contact () {}
 
     public Contact(UUID contactId, UUID userId, String name, String email, String phoneNumber, String address,
             String picture, String description, boolean favorite, String websiteLink, String linkedInLink,

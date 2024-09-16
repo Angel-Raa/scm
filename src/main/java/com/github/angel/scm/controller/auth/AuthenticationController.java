@@ -78,4 +78,5 @@ public class AuthenticationController {
         return "redirect:/authentication/login?logout=true";
     }
 
+
 }

@@ -7,10 +7,9 @@ package com.github.angel.scm.persistence.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 import java.sql.Types;
+import java.util.stream.Collectors;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Parameter;
@@ -35,6 +34,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -42,7 +44,7 @@ import jakarta.persistence.UniqueConstraint;
  */
 @Entity(name = "User")
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
     @Serial
     private static final long serialVersionUID = -2192717293716361515L;
     @Id
@@ -137,8 +139,39 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(role == null) return Collections.emptyList();
+        if(role.getAuthorities() == null) return Collections.emptyList();
+        return role.getAuthorities()
+                .getPermissions()
+                .stream().map(Enum::name)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
     }
 
     public void setPassword(String password) {
