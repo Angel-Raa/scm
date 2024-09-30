@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.angel.scm.dto.request.Login;
 import com.github.angel.scm.dto.request.Register;
+import com.github.angel.scm.exception.ResourceAlreadyExistsException;
 import com.github.angel.scm.service.AuthenticationService;
 
 import jakarta.validation.Valid;
@@ -61,25 +62,35 @@ public class AuthenticationController {
     @PostMapping("/register")
     public String register(@Valid final Register register, final BindingResult result, final Model model,
             final RedirectAttributes atribute) {
-        if (result.hasErrors()) {
-            // Recopila los errores de validación y los agrega al modelo
-            Map<String, Object> errores = result.getFieldErrors().stream()
-                    .collect(Collectors.toMap(
-                            FieldError::getField,
-                            FieldError::getDefaultMessage));
-            model.addAttribute("errors", errores);
+        try {
+            if (result.hasErrors()) {
+                // Recopila los errores de validación y los agrega al modelo
+                Map<String, Object> errores = result.getFieldErrors().stream()
+                        .collect(Collectors.toMap(
+                                FieldError::getField,
+                                FieldError::getDefaultMessage));
+                model.addAttribute("errors", errores);
+                model.addAttribute("register", register);
+                return "register";
+            }
+            atribute.addAttribute("message", "Registration Successful");
+            service.register(register);
+            return "redirect:/";
+        } catch (IllegalArgumentException exception) {
+            model.addAttribute("passwordError", exception.getMessage());
+            model.addAttribute("register", register);
+            return "register";
+        } catch (ResourceAlreadyExistsException e) {
+            model.addAttribute("emailError", e.getMessage());
             model.addAttribute("register", register);
             return "register";
         }
-        atribute.addAttribute("message", "Registration Successful");
-        service.register(register);
-        return "redirect:/";
+
     }
 
     @GetMapping("/logout")
     public String logout(final Model model) {
         return "redirect:/authentication/login?logout=true";
     }
-
 
 }

@@ -38,6 +38,9 @@
                             <div class="mt-1 text-sm text-red-600 dark:text-red-400"
                                 th:if="${errors != null && errors.containsKey('email')}" th:text="${errors['email']}">
                             </div>
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400" th:if="${emailError != null}"
+                                th:text="${emailError}">
+                            </div>
 
 
                         </div>
@@ -45,16 +48,20 @@
                         <!-- password field -->
                         <div class="mb-3">
                             <label for="password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
-                                Password</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                             <input th:field="*{password}" type="password" id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required />
-
+                                placeholder="Enter password" required />
                             <div class="mt-1 text-sm text-red-600 dark:text-red-400"
                                 th:if="${errors != null && errors.containsKey('password')}"
-                                th:text="${errors['password']}"></div>
+                                th:text="${errors['password']}">
+                            </div>
+                            <div class="mt-1 text-sm text-red-600 dark:text-red-400" th:if="${passwordError != null}"
+                                th:text="${passwordError}">
+                            </div>
                         </div>
+
+
                         <!-- Phone field -->
                         <div class="mb-3">
                             <label for="phone"

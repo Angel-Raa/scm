@@ -70,6 +70,11 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserByEmail(@NonNull String email) throws ResourceNotFoundException {
         return repository.findByEmailDto(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
+    @Transactional(readOnly = true)
+    @Override
+    public boolean existsByEmail(String email) {
+       return repository.existsByEmail(email);
+    }
   
 
 }
