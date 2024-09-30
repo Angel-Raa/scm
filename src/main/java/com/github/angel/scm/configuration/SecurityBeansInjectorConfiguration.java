@@ -31,12 +31,12 @@ public class SecurityBeansInjectorConfiguration {
     }
 
     @Bean
-    PasswordEncoder getPasswordEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(detailsService);
         authenticationProvider.setPasswordEncoder(getPasswordEncoder());
@@ -44,12 +44,13 @@ public class SecurityBeansInjectorConfiguration {
     }
 
     @Bean
-    CompromisedPasswordChecker compromisedPasswordChecker() {
+    public CompromisedPasswordChecker compromisedPasswordChecker() {
         return new HaveIBeenPwnedRestApiPasswordChecker();
     }
 
     @Bean
-    AuthenticationManager authenticationManager(@NotNull AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(@NotNull AuthenticationConfiguration configuration)
+            throws Exception {
         return configuration.getAuthenticationManager();
     }
 

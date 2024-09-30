@@ -5,7 +5,6 @@
 
 package com.github.angel.scm.service.impl;
 
-import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -47,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void login(Login login) {
         String email = login.getEmail();
         String passwword = login.getPassword();
-
+        
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, passwword);
         authentication = authenticationManager.authenticate(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);

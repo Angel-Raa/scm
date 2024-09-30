@@ -53,9 +53,9 @@ public class AuthenticationController {
             final RedirectAttributes atribute) {
         service.login(login);
         atribute.addAttribute("message", "Login Successful");
-        atribute.addAttribute("login", login);
+        model.addAttribute("login", login);
 
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @PostMapping("/register")

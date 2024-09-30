@@ -13,7 +13,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.github.angel.scm.dto.request.Profile;
 import com.github.angel.scm.dto.response.UserDTO;
 import com.github.angel.scm.exception.ResourceNotFoundException;
 import com.github.angel.scm.persistence.repository.UserRepository;

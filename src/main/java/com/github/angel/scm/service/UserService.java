@@ -30,5 +30,6 @@ public interface UserService {
     void updateEmail(@NonNull String oldEmail, @NonNull String newEmail) throws ResourceNotFoundException;
 
     // void createProfile(@NonNull Profile profile);
+    
 
 }

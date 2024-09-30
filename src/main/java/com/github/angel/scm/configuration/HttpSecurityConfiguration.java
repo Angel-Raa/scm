@@ -22,24 +22,25 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class HttpSecurityConfiguration {
     private final AuthenticationProvider provider;
-    
 
     public HttpSecurityConfiguration(AuthenticationProvider provider) {
         this.provider = provider;
-       
+
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/authentication/**", "/home/**", "/css/**", "/js/**", "/images/**", "/lib/**", "/favicon.ico")
+            auth.requestMatchers("/authentication/**", "/home/**", "/css/**", "/js/**", "/images/**", "/lib/**",
+                    "/favicon.ico")
                     .permitAll();
             auth.anyRequest().authenticated();
         });
 
         http.formLogin(from -> {
             from.loginPage("/authentication/login").permitAll();
-           from.defaultSuccessUrl("/", true);
+            from.defaultSuccessUrl("/", true);
+            from.failureUrl("/authentication/login?error=true");
             from.permitAll();
         });
 
@@ -50,12 +51,11 @@ public class HttpSecurityConfiguration {
             logout.deleteCookies("JSESSIONID");
             logout.clearAuthentication(true);
 
-
             logout.permitAll();
         });
 
         http.authenticationProvider(provider);
-       
+        http.formLogin(form -> form.disable());
 
         return http.build();
     }

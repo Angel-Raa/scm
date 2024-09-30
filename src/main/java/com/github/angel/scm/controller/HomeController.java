@@ -5,6 +5,7 @@
 
 package com.github.angel.scm.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,34 +15,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author aguero
  */
+
 @Controller
-@RequestMapping("/")
+@RequestMapping("/home")
 public class HomeController {
-    @GetMapping({"/", "/home"})
-    public String home(final Model model){
+ 
+    @GetMapping
+    public String home(final Model model) {
         model.addAttribute("subtitle", "Home");
         model.addAttribute("content", "This is the home page");
         return "home";
     }
 
+
     @GetMapping("/about")
-    public String about(final Model model){
+    public String about(final Model model) {
         return "about";
     }
 
+  
     @GetMapping("/service")
-    public String service(final Model model){
+    public String service(final Model model) {
         return "service";
     }
 
-
+ 
     @GetMapping("/contact")
-    public String contact(final Model model){
+    public String contact(final Model model) {
         return "contact";
     }
-
-
-    
-  
 
 }
