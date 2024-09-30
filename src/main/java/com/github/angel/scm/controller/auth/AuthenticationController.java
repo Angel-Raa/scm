@@ -51,7 +51,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String login(@Valid final Login login, final BindingResult result, final Model model,
             final RedirectAttributes atribute) {
-        System.out.println(login.toString());
+        service.login(login);
+        atribute.addAttribute("message", "Login Successful");
+        atribute.addAttribute("login", login);
+
         return "redirect:/";
     }
 
@@ -66,7 +69,7 @@ public class AuthenticationController {
                             FieldError::getDefaultMessage));
             model.addAttribute("errors", errores);
             model.addAttribute("register", register);
-            return "authentication/register";
+            return "register";
         }
         atribute.addAttribute("message", "Registration Successful");
         service.register(register);

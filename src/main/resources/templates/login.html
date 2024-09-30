@@ -23,7 +23,7 @@
                     </h5>
 
                     <!-- this is  form -->
-                    <form method="post" data-th-action="@{/authentication/login}" class="mt-5" th:object="${login}">
+                    <form method="post" th:action="@{/authentication/login}" class="mt-5" th:object="${login}">
                         <!-- username field -->
                         <div class="mb-3">
                             <label for="email"

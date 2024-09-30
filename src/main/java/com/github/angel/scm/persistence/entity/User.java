@@ -5,8 +5,7 @@
 
 package com.github.angel.scm.persistence.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
+
 import java.util.*;
 import java.sql.Types;
 import java.util.stream.Collectors;
@@ -44,9 +43,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity(name = "User")
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
-public class User implements Serializable, UserDetails {
-    @Serial
-    private static final long serialVersionUID = -2192717293716361515L;
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
@@ -66,7 +63,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
     @JdbcTypeCode(Types.BOOLEAN)
-    private boolean enabled = false;
+    private boolean enabled = true;
     @Column(name = "email_verified")
     @JdbcTypeCode(Types.BOOLEAN)
     private boolean emailVerified = false;
@@ -151,7 +148,7 @@ public class User implements Serializable, UserDetails {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     @Override
@@ -203,7 +200,7 @@ public class User implements Serializable, UserDetails {
     }
 
     public boolean isEnabled() {
-        return enabled;
+        return this.enabled;
     }
 
     public void setEnabled(boolean enabled) {

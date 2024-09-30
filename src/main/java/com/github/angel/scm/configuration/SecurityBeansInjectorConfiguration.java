@@ -9,13 +9,14 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
-
 
 /**
  *
@@ -25,23 +26,31 @@ import org.springframework.security.web.authentication.password.HaveIBeenPwnedRe
 public class SecurityBeansInjectorConfiguration {
     private final UserDetailsService detailsService;
 
-    public SecurityBeansInjectorConfiguration(UserDetailsService detailsService) {
+    SecurityBeansInjectorConfiguration(UserDetailsService detailsService) {
         this.detailsService = detailsService;
     }
 
     @Bean
-    public PasswordEncoder  getPasswordEncoder() {
-        return new  BCryptPasswordEncoder();
+    PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public CompromisedPasswordChecker compromisedPasswordChecker(){
+    AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(detailsService);
+        authenticationProvider.setPasswordEncoder(getPasswordEncoder());
+        return authenticationProvider;
+    }
+
+    @Bean
+    CompromisedPasswordChecker compromisedPasswordChecker() {
         return new HaveIBeenPwnedRestApiPasswordChecker();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(@NotNull AuthenticationConfiguration configuration) throws Exception {
+    AuthenticationManager authenticationManager(@NotNull AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-    
+
 }
