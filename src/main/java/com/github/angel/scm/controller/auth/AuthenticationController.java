@@ -52,11 +52,14 @@ public class AuthenticationController {
     @PostMapping("/login")
     public String login(@Valid final Login login, final BindingResult result, final Model model,
             final RedirectAttributes atribute) {
+        if (result.hasErrors()) {
+            return "login";
+        }
         service.login(login);
         atribute.addAttribute("message", "Login Successful");
         model.addAttribute("login", login);
 
-        return "redirect:/home";
+        return "redirect:/profile/dashboard";
     }
 
     @PostMapping("/register")
@@ -75,7 +78,7 @@ public class AuthenticationController {
             }
             atribute.addAttribute("message", "Registration Successful");
             service.register(register);
-            return "redirect:/";
+            return "redirect:/authentication/login";
         } catch (IllegalArgumentException exception) {
             model.addAttribute("passwordError", exception.getMessage());
             model.addAttribute("register", register);

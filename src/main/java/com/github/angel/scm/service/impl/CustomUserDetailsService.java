@@ -1,7 +1,9 @@
 package com.github.angel.scm.service.impl;
 
+import com.github.angel.scm.persistence.entity.Profile;
 import com.github.angel.scm.persistence.repository.UserRepository;
 
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,10 +21,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        com.github.angel.scm.persistence.entity.User usersDetails = repository.findByEmail(email)
+        Profile usersDetails = repository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Not Found Email"));
-        return org.springframework.security.core.userdetails.User.builder()
-
+        
+                return User.builder()
                 .username(usersDetails.getEmail())
                 .password(usersDetails.getPassword())
                 .roles(usersDetails.getRole().getAuthorities().name())

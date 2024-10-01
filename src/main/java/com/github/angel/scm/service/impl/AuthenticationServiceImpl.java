@@ -18,7 +18,7 @@ import com.github.angel.scm.dto.request.Login;
 import com.github.angel.scm.dto.request.Register;
 import com.github.angel.scm.exception.ResourceAlreadyExistsException;
 import com.github.angel.scm.persistence.entity.Role;
-import com.github.angel.scm.persistence.entity.User;
+import com.github.angel.scm.persistence.entity.Profile;
 import com.github.angel.scm.persistence.repository.RoleRepository;
 import com.github.angel.scm.persistence.repository.UserRepository;
 import com.github.angel.scm.service.AuthenticationService;
@@ -53,8 +53,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String passwword = login.getPassword();
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, passwword);
-        authentication = authenticationManager.authenticate(authentication);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authenticated = authenticationManager.authenticate(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authenticated);
 
     }
 
@@ -64,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String password = register.getPassword();
         String phoneNumber = register.getPhoneNumber();
         String about = register.getAbout();
-        User user = new User();
+        Profile user = new Profile();
         Role role = new Role();
         if (compromisedPasswordChecker.check(password).isCompromised()) {
             throw new IllegalArgumentException("Password is compromised");
@@ -76,6 +76,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         
         role.setAuthorities(Authorities.USER);
         roleRepository.persist(role);
+
+       
         user.setProfilePic(PROFILE_IMAGES);
         user.setEmail(email);
         user.setAbout(about);

@@ -68,10 +68,10 @@ public class Contact implements Serializable {
     private String linkedInLink;
     @Column(name = "cloudinary_image_public_id", length = 100)
     private String cloudinaryImagePublicId;
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = Profile.class)
     @JoinColumn(name = "fk_user_id", insertable = false, updatable = false, referencedColumnName = "user_id")
     @JsonBackReference
-    private User user;
+    private Profile user;
 
     @Type(value = ListArrayType.class, parameters = {
             @Parameter(name = ListArrayType.SQL_ARRAY_TYPE, value = "social_links")
@@ -85,7 +85,7 @@ public class Contact implements Serializable {
 
     public Contact(UUID contactId, UUID userId, String name, String email, String phoneNumber, String address,
             String picture, String description, boolean favorite, String websiteLink, String linkedInLink,
-            String cloudinaryImagePublicId, User user, List<SocialLink> socialLinks) {
+            String cloudinaryImagePublicId, Profile user, List<SocialLink> socialLinks) {
         this.contactId = contactId;
         this.userId = userId;
         this.name = name;
@@ -198,11 +198,11 @@ public class Contact implements Serializable {
         this.cloudinaryImagePublicId = cloudinaryImagePublicId;
     }
 
-    public User getUser() {
+    public Profile getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Profile user) {
         this.user = user;
     }
 

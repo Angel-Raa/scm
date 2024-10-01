@@ -9,7 +9,10 @@ import java.util.List;
 
 /**
  *
+ * Enum representing the different authorities or roles in the system.
+ * Each authority has a set of associated permissions.
  * @author aguero
+ * 
  */
 public enum Authorities {
     USER(

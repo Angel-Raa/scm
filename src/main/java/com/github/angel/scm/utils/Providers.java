@@ -6,7 +6,7 @@
 package com.github.angel.scm.utils;
 
 /**
- *
+ * 
  * @author aguero
  */
 public enum Providers {

@@ -16,7 +16,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.github.angel.scm.dto.response.UserDTO;
-import com.github.angel.scm.persistence.entity.User;
+import com.github.angel.scm.persistence.entity.Profile;
 
 import io.hypersistence.utils.spring.repository.BaseJpaRepository;
 
@@ -25,10 +25,10 @@ import io.hypersistence.utils.spring.repository.BaseJpaRepository;
  * @author aguero
  */
 @Repository
-public interface UserRepository extends BaseJpaRepository<User, UUID> {
+public interface UserRepository extends BaseJpaRepository<Profile, UUID> {
     boolean existsByEmail(String email);
 
-    Optional<User> findByEmail(String email);
+    Optional<Profile> findByEmail(String email);
 
     @Query("""
             SELECT NEW com.github.angel.scm.dto.response.UserDTO(

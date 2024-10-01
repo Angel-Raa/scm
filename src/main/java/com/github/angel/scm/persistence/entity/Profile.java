@@ -8,8 +8,6 @@ package com.github.angel.scm.persistence.entity;
 
 import java.util.*;
 import java.sql.Types;
-import java.util.stream.Collectors;
-
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
@@ -43,7 +41,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity(name = "User")
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
-public class User implements UserDetails {
+public class Profile implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
@@ -89,10 +87,10 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Contact.class, orphanRemoval = true, mappedBy = "user")
     private List<Contact> contact = new ArrayList<>();
 
-    public User() {
+    public Profile() {
     }
 
-    public User(UUID userId, UUID roleId, String email, String password, String about, String profilePic,
+    public Profile(UUID userId, UUID roleId, String email, String password, String about, String profilePic,
             String phoneNumber, boolean enabled, boolean emailVerified, boolean phoneVerified, Providers providers,
             String providerUserId, String emailToken, Role role, List<Contact> contact) {
         this.userId = userId;
@@ -142,9 +140,9 @@ public class User implements UserDetails {
         if(role.getAuthorities() == null) return Collections.emptyList();
         return role.getAuthorities()
                 .getPermissions()
-                .stream().map(Enum::name)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .stream()
+                .map(permissions -> new SimpleGrantedAuthority(permissions.name()))
+                .toList();
     }
 
     public String getPassword() {
@@ -279,7 +277,7 @@ public class User implements UserDetails {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        Profile other = (Profile) obj;
         if (userId == null) {
             if (other.userId != null)
                 return false;
@@ -287,5 +285,9 @@ public class User implements UserDetails {
             return false;
         return true;
     }
+
+
+
+
 
 }
