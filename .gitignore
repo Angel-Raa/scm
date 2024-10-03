@@ -166,5 +166,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-
-!/src/main/resources/oauth2.properties
+/src/main/resources/oauth2.properties
