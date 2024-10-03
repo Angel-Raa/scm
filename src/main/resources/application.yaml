@@ -1,0 +1,63 @@
+server:
+  servlet:
+    context-path: /scm
+  port: 9090
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/scm
+    username: admin
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+  config:
+    import: classpath:oauth2.properties
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  servlet:
+    multipart:
+      max-file-size: ${MAX_FILE_SIZE:10MB}
+      max-request-size: ${MAX_REQUEST_SIZE:10MB}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${spring.security.oauth2.client.registration.google.client-id}
+            client-secret: ${spring.security.oauth2.client.registration.google.client-secret}
+            scope:
+              - email
+              - profile
+          github:
+            client-id: ${spring.security.oauth2.client.registration.github.client-id}
+            client-secret: ${spring.security.oauth2.client.registration.github.client-secret}
+            scope:
+              - email
+              - profile
+
+

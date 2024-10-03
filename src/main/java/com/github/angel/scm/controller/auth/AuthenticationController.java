@@ -5,8 +5,8 @@
 
 package com.github.angel.scm.controller.auth;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,12 +51,14 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public String login(@Valid final Login login, final BindingResult result, final Model model,
-            final RedirectAttributes atribute) {
+            final RedirectAttributes attribute) {
         if (result.hasErrors()) {
+            model.addAttribute("login", login);
+            model.addAttribute("errors", result.getFieldErrors());
             return "login";
         }
         service.login(login);
-        atribute.addAttribute("message", "Login Successful");
+        attribute.addAttribute("message", "Login Successful");
         model.addAttribute("login", login);
 
         return "redirect:/profile/dashboard";
@@ -68,10 +70,12 @@ public class AuthenticationController {
         try {
             if (result.hasErrors()) {
                 // Recopila los errores de validación y los agrega al modelo
-                Map<String, Object> errores = result.getFieldErrors().stream()
-                        .collect(Collectors.toMap(
-                                FieldError::getField,
-                                FieldError::getDefaultMessage));
+                Map<String, Object> errores = new HashMap<>();
+                for (FieldError fieldError : result.getFieldErrors()) {
+                    if (errores.put(fieldError.getField(), fieldError.getDefaultMessage()) != null) {
+                        throw new IllegalStateException("Duplicate key");
+                    }
+                }
                 model.addAttribute("errors", errores);
                 model.addAttribute("register", register);
                 return "register";

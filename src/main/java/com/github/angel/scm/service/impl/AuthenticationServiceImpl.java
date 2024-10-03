@@ -5,6 +5,7 @@
 
 package com.github.angel.scm.service.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -20,7 +21,7 @@ import com.github.angel.scm.exception.ResourceAlreadyExistsException;
 import com.github.angel.scm.persistence.entity.Role;
 import com.github.angel.scm.persistence.entity.Profile;
 import com.github.angel.scm.persistence.repository.RoleRepository;
-import com.github.angel.scm.persistence.repository.UserRepository;
+import com.github.angel.scm.persistence.repository.ProfileRepository;
 import com.github.angel.scm.service.AuthenticationService;
 import com.github.angel.scm.utils.Authorities;
 
@@ -32,14 +33,14 @@ import com.github.angel.scm.utils.Authorities;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
     private static final String PROFILE_IMAGES = "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-profile-picture-business-profile-woman-suitable-social-media-profiles-icons-screensavers-as-templatex9_719432-1328.jpg?w=826";
-    private final UserRepository repository;
+    private final ProfileRepository repository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final CompromisedPasswordChecker compromisedPasswordChecker;
 
-    public AuthenticationServiceImpl(UserRepository repository, RoleRepository roleRepository,
-            BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, CompromisedPasswordChecker compromisedPasswordChecker) {
+    public AuthenticationServiceImpl(ProfileRepository repository, RoleRepository roleRepository,
+                                     BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, CompromisedPasswordChecker compromisedPasswordChecker) {
         this.repository = repository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -50,16 +51,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public void login(Login login) {
         String email = login.getEmail();
-        String passwword = login.getPassword();
+        String password = login.getPassword();
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(email, passwword);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
         Authentication authenticated = authenticationManager.authenticate(authentication);
         SecurityContextHolder.getContext().setAuthentication(authenticated);
 
     }
 
     @Override
-    public void register(Register register) {
+    public void register(@NotNull Register register) {
         String email = register.getEmail();
         String password = register.getPassword();
         String phoneNumber = register.getPhoneNumber();

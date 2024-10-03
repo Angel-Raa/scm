@@ -18,7 +18,7 @@ import com.github.angel.scm.exception.ResourceNotFoundException;
  *
  * @author aguero
  */
-public interface UserService {
+public interface ProfileService {
     UserDTO getUserById(@NonNull UUID userId) throws ResourceNotFoundException;
 
     UserDTO getUserByEmail(@NonNull String email) throws ResourceNotFoundException;

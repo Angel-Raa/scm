@@ -1,7 +1,7 @@
 package com.github.angel.scm.service.impl;
 
 import com.github.angel.scm.persistence.entity.Profile;
-import com.github.angel.scm.persistence.repository.UserRepository;
+import com.github.angel.scm.persistence.repository.ProfileRepository;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserRepository repository;
+    private final ProfileRepository repository;
 
-    public CustomUserDetailsService(UserRepository repository) {
+    public CustomUserDetailsService(ProfileRepository repository) {
         this.repository = repository;
     }
 

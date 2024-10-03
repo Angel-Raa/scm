@@ -25,7 +25,7 @@ import io.hypersistence.utils.spring.repository.BaseJpaRepository;
  * @author aguero
  */
 @Repository
-public interface UserRepository extends BaseJpaRepository<Profile, UUID> {
+public interface ProfileRepository extends BaseJpaRepository<Profile, UUID> {
     boolean existsByEmail(String email);
 
     Optional<Profile> findByEmail(String email);

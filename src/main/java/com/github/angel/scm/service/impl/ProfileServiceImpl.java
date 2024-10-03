@@ -15,18 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.angel.scm.dto.response.UserDTO;
 import com.github.angel.scm.exception.ResourceNotFoundException;
-import com.github.angel.scm.persistence.repository.UserRepository;
-import com.github.angel.scm.service.UserService;
+import com.github.angel.scm.persistence.repository.ProfileRepository;
+import com.github.angel.scm.service.ProfileService;
 
 /**
  *
  * @author aguero
  */
 @Service
-public class UserServiceImpl implements UserService {
-    private final UserRepository repository;
+public class ProfileServiceImpl implements ProfileService {
+    private final ProfileRepository repository;
 
-    public UserServiceImpl(UserRepository repository) {
+    public ProfileServiceImpl(ProfileRepository repository) {
         this.repository = repository;
     }
 
@@ -53,16 +53,19 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+
     @Transactional
     @Override
     public void updateEmail(@NonNull String newEmail, @NonNull String oldEmail) throws ResourceNotFoundException {
         int result = repository.updateEmail(oldEmail, newEmail);
         if (result == 0) {
             throw new ResourceNotFoundException("User not found");
-        } else {
-            System.out.println("Email updated successfully");
-        }
 
+        } else {
+            System.out.println("Email updated");
+
+        }
     }
 
     @Transactional(readOnly = true)

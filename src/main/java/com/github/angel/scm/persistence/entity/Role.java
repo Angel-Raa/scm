@@ -40,6 +40,10 @@ public class Role implements Serializable {
     public Role() {
     }
 
+    public Role(Authorities authorities) {
+        this.authorities = authorities;
+    }
+
     public Role(UUID roleId, Authorities authorities) {
         this.roleId = roleId;
         this.authorities = authorities;

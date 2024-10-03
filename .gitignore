@@ -167,3 +167,4 @@ dist
 .pnp.*
 
 
+!/src/main/resources/oauth2.properties
