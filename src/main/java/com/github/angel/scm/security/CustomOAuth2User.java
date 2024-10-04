@@ -6,7 +6,13 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.*;
 
-public class CustomOAuth2User implements OAuth2User {
+/**
+ * Custom OAuth2 User implementation that combines OAuth2User information with custom profile data.
+ * This class allows you to access both OAuth2User attributes and custom profile data from a single object.
+ * @author aguero
+ *
+ */
+public final class CustomOAuth2User implements OAuth2User {
     private OAuth2User oAuth2User;
     private Profile profile;
 
