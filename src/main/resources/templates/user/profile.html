@@ -8,38 +8,51 @@
 <body>
     <div id="content">
         <!-- sidebar -->
-
-        <!-- user is logged in : sidebar 
-      <div th:if="${loggedInUser}">
-        <div data-th-replace="~{user/sidebar :: sidebar}"></div>
-      </div>
-     -->
+        <div th:if="${logged}">
+            <div data-th-replace="~{user/sidebar :: sidebar}"></div>
+        </div>
 
         <div class="sm:pl-64 pt-20" style="height: 1000px">
             <div class="flex items-center justify-center md:pt-32 flex-col">
-                <!--  profie card -->
+                <!-- profile card -->
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-2xl w-full">
                     <div class="flex flex-col items-center">
-                        <img src="path/to/profilePic.jpg" alt="Profile Photo"
+                        <img th:src="@{/images/default-profile.jpg}" alt="Profile Photo"
                             class="w-44 h-44 rounded-full shadow-lg object-cover mb-4">
-                        <h2 class="text-2xl font-semibold mb-2">User Name</h2>
-                        <p class="text-gray-600 mb-2">user.email@example.com</p>
-                        <p class="text-gray-600 mb-2">123-456-7890</p>
-                        <p class="text-gray-600 mb-4 text-center">About the user...</p>
+
+                        <h2 class="text-2xl font-semibold mb-2" th:text="${username}"></h2>
+                        <p class="text-gray-600 mb-2" th:text="${email}"></p>
+                        <p class="text-gray-600 mb-2" th:text="${phoneNumber}"></p>
+
                         <div class="w-full flex justify-between">
-                            <p class="text-sm text-gray-500">Email Verified: <span class="font-medium text-gray-700"
-                                    id="email-verified">No</span></p>
-                            <p class="text-sm text-gray-500">Phone Verified: <span class="font-medium text-gray-700"
-                                    id="phone-verified">No</span></p>
+                            <p class="text-sm text-gray-500">
+                                Email Verified:
+                                <span class="font-medium text-gray-700"
+                                    th:text="${emailVerified ? 'Yes' : 'No'}">No</span>
+                            </p>
+                            <p class="text-sm text-gray-500">
+                                Phone Verified:
+                                <span class="font-medium text-gray-700"
+                                    th:text="${phoneVerified ? 'Yes' : 'No'}">No</span>
+                            </p>
+                        </div>
+
+                        <!-- Mostrar roles/authorities -->
+                        <div class="mt-4">
+                            <p class="text-sm text-gray-500">Roles:</p>
+                            <ul class="list-disc pl-5">
+                                <li th:each="authority : ${authorities}" th:text="${authority.authority}"></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-            console.log("this is profile page");
-        </script>
+    <script>
+        console.log("this is profile page");
+    </script>
 </body>
 
 </html>

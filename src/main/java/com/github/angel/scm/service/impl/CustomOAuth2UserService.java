@@ -76,7 +76,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     /**
      * Extracts the email from the OAuth2User.
      * @param oauth2User
-     * @param userRequest
+     * @param registrationId
      * @return
      */
     private String extractEmail(OAuth2User oauth2User, String registrationId){
@@ -112,11 +112,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
      * Extracts the provider ID from the OAuth2User.
      * @param oAuth2User
      * @param registrationId
-     * @return
+     * @return String
      */
     private  String extractProviderId(OAuth2User oAuth2User, String registrationId){
         if("github".equals(registrationId)){
-            return oAuth2User.getAttribute("id").toString();
+            return oAuth2User.getAttribute("id");
         }
         return oAuth2User.getAttribute("sub");
     }

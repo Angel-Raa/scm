@@ -197,6 +197,7 @@ public class Profile implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
     public boolean isEnabled() {
         return this.enabled;
     }
